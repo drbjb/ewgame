@@ -11,7 +11,7 @@ public class PlayerAttack : MonoBehaviour
     {
         attackArea = transform.GetChild(3).gameObject;
     }
-    void update()
+    void Update()
     {
         if (Input.GetMouseButtonDown(0)){
             print("meow");
@@ -40,6 +40,6 @@ public class PlayerAttack : MonoBehaviour
         attackArea.SetActive(attacking);
     }
 
-    void fixed_update
+
 
 }
