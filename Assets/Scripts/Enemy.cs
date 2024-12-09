@@ -49,7 +49,7 @@ public class Enemy : MonoBehaviour
 
         if (Input.GetMouseButtonDown(0)){
             print("meow");
-            Attack();
+            //Attack();
         }
     }
 
