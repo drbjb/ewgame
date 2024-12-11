@@ -2,15 +2,27 @@ using UnityEngine;
 
 public class AttackArea : MonoBehaviour
 {
-    private int damage = 3;
+    private int damage = 1;
+    public float speed = 500;
 
-    private void onTriggerEnter(Collider collider){
+
+    private void OnTriggerEnter(Collider collider){
         print("should be murder2");
-        if (collider.GetComponent<Health>() != null){
-            print("should be murder");
-            Health h = collider.GetComponent<Health>();
-            h.Damage(damage);
+        if (collider.CompareTag("Enemy"))
+        {
+            if (collider.GetComponent<Health>() != null)
+            {
+                print("should be murder");
+                Health h = collider.GetComponent<Health>();
+                if (h)
+                    h.Damage(damage);
+                Enemy e = collider.GetComponent<Enemy>();
+                e.Kback(transform.position);
+                Vector3 direction = (transform.position - collider.transform.position).normalized;
+                collider.GetComponent<Rigidbody>().AddForce(direction * speed);
+            }
         }
+
         
     }
 }

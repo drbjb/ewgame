@@ -25,6 +25,8 @@ public class Enemy : MonoBehaviour
     bool alreadyAttacked;
     public GameObject projectile;
 
+    bool back = false;
+    float backtime = 0;
     //States
     public float sightRange, attackRange;
     public bool playerInSightRange, playerInAttackRange;
@@ -42,15 +44,19 @@ public class Enemy : MonoBehaviour
         //Check for sight and attack range
         playerInSightRange = Physics.CheckSphere(transform.position, sightRange, whatIsPlayer);
         playerInAttackRange = Physics.CheckSphere(transform.position, attackRange, whatIsPlayer);
+        if (backtime <= 0)
+        {
+            if (!playerInSightRange && !playerInAttackRange) Patroling();
+            if (playerInSightRange && !playerInAttackRange) ChasePlayer();
+            if (playerInAttackRange && playerInSightRange) AttackPlayer();
+        }
 
-        if (!playerInSightRange && !playerInAttackRange) Patroling();
-        if (playerInSightRange && !playerInAttackRange) ChasePlayer();
-        if (playerInAttackRange && playerInSightRange) AttackPlayer();
 
         if (Input.GetMouseButtonDown(0)){
-            print("meow");
+            print(back);
             //Attack();
         }
+        backtime -= Time.deltaTime;
     }
 
     private void Patroling()
@@ -122,10 +128,20 @@ public class Enemy : MonoBehaviour
 
         if (health <= 0) Invoke(nameof(DestroyEnemy), 0.5f);
     }
+
+    public void Kback(Vector3 posi)
+    {
+
+        backtime = 60;
+        print("knockack!");
+        agent.enabled = false;
+
+    }
     private void DestroyEnemy()
     {
         Destroy(gameObject);
     }
+
 
     private void OnDrawGizmosSelected()
     {

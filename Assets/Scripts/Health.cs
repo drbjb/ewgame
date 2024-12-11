@@ -12,7 +12,7 @@ public class Health : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(health == 0){
+        if(health <= 0){
             Destroy(gameObject);
         }
         
@@ -20,5 +20,6 @@ public class Health : MonoBehaviour
 
     public void Damage(int d){
         health -= d;
+        print("monster: " + health);
     }
 }
