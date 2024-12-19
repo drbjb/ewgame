@@ -3,7 +3,7 @@ using UnityEngine;
 public class AttackArea : MonoBehaviour
 {
     private int damage = 1;
-    public float speed = 500;
+    public float speed = 1000000;
 
 
     private void OnTriggerEnter(Collider collider){
@@ -17,9 +17,9 @@ public class AttackArea : MonoBehaviour
                 if (h)
                     h.Damage(damage);
                 Enemy e = collider.GetComponent<Enemy>();
-                e.Kback(transform.position);
                 Vector3 direction = (transform.position - collider.transform.position).normalized;
-                collider.GetComponent<Rigidbody>().AddForce(direction * speed);
+                e.Kback(direction);
+                
             }
         }
 

@@ -4,6 +4,8 @@ public class Enemy : MonoBehaviour
 {
      public NavMeshAgent agent;
 
+    public Rigidbody rb;
+
     public Transform player;
 
     public GameObject playerO;
@@ -35,6 +37,7 @@ public class Enemy : MonoBehaviour
     {
         player = GameObject.Find("PlayerObj").transform;
         agent = GetComponent<NavMeshAgent>();
+        rb = GetComponent<Rigidbody>();
         playerMovement = playerO.GetComponent<PlayerMovement>();
         checkz = GetComponent<CapsuleCollider>();
     }
@@ -46,10 +49,14 @@ public class Enemy : MonoBehaviour
         playerInAttackRange = Physics.CheckSphere(transform.position, attackRange, whatIsPlayer);
         if (backtime <= 0)
         {
+            agent.enabled = true;
+            rb.isKinematic = true;
+            print("should return...");
             if (!playerInSightRange && !playerInAttackRange) Patroling();
             if (playerInSightRange && !playerInAttackRange) ChasePlayer();
             if (playerInAttackRange && playerInSightRange) AttackPlayer();
         }
+        
 
 
         if (Input.GetMouseButtonDown(0)){
@@ -129,12 +136,13 @@ public class Enemy : MonoBehaviour
         if (health <= 0) Invoke(nameof(DestroyEnemy), 0.5f);
     }
 
-    public void Kback(Vector3 posi)
+    public void Kback(Vector3 direction)
     {
-
-        backtime = 60;
+        rb.AddForce(direction * 600 * -1);
+        backtime = 1;
         print("knockack!");
         agent.enabled = false;
+        rb.isKinematic = false;
 
     }
     private void DestroyEnemy()
