@@ -51,10 +51,10 @@ public class Enemy : MonoBehaviour
         {
             agent.enabled = true;
             rb.isKinematic = true;
-            print("should return...");
+            //print("should return...");
             if (!playerInSightRange && !playerInAttackRange) Patroling();
             if (playerInSightRange && !playerInAttackRange) ChasePlayer();
-            if (playerInAttackRange && playerInSightRange) AttackPlayer();
+            //if (playerInAttackRange && playerInSightRange) AttackPlayer();
         }
         
 
@@ -100,7 +100,7 @@ public class Enemy : MonoBehaviour
 
     private void AttackPlayer()
     {
-
+        
         //Make sure enemy doesn't move
         agent.SetDestination(transform.position);
 
@@ -123,6 +123,7 @@ public class Enemy : MonoBehaviour
             alreadyAttacked = true;
             Invoke(nameof(ResetAttack), timeBetweenAttacks);
         }
+
     }
     private void ResetAttack()
     {

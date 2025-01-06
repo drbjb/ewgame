@@ -5,7 +5,10 @@ public class AttackArea : MonoBehaviour
     private int damage = 1;
     public float speed = 1000000;
 
-
+    public void update()
+    {
+        transform.rotation = transform.parent.transform.rotation; 
+    }
     private void OnTriggerEnter(Collider collider){
         print("should be murder2");
         if (collider.CompareTag("Enemy"))

@@ -14,7 +14,6 @@ public class PlayerAttack : MonoBehaviour
     void Update()
     {
         if (Input.GetMouseButtonDown(0)){
-            print("meow");
             Attack();
         }
             
