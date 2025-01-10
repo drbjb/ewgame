@@ -9,6 +9,27 @@ public class AttackArea : MonoBehaviour
     {
         transform.rotation = transform.parent.transform.rotation; 
     }
+    private void OnTriggerEnter(Collider collider)
+    {
+        print("should be murder2");
+        if (collider.CompareTag("Enemy"))
+        {
+            if (collider.GetComponent<Health>() != null)
+            {
+                print("should be murder");
+                Health h = collider.GetComponent<Health>();
+                if (h)
+                    h.Damage(damage);
+
+                Enemy e = collider.GetComponent<Enemy>();
+                Vector3 direction = (transform.parent.transform.position - collider.transform.position).normalized;
+                Debug.DrawLine(transform.position, collider.transform.position, Color.red, 1f);
+                e.Kback(direction);  // Pass direction to Kback without multiplying by -1
+                print(direction);
+            }
+        }
+    }
+    /*
     private void OnTriggerEnter(Collider collider){
         print("should be murder2");
         if (collider.CompareTag("Enemy"))
@@ -20,12 +41,15 @@ public class AttackArea : MonoBehaviour
                 if (h)
                     h.Damage(damage);
                 Enemy e = collider.GetComponent<Enemy>();
-                Vector3 direction = (transform.position - collider.transform.position).normalized;
+                Vector3 direction = (transform.parent.transform.position - collider.transform.position).normalized;
+                Debug.DrawLine(transform.position, collider.transform.position, Color.red, 1f);
                 e.Kback(direction);
+                print(direction);
                 
             }
         }
 
         
     }
+    */
 }

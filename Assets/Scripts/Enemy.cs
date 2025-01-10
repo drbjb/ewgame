@@ -39,6 +39,7 @@ public class Enemy : MonoBehaviour
         agent = GetComponent<NavMeshAgent>();
         rb = GetComponent<Rigidbody>();
         playerMovement = playerO.GetComponent<PlayerMovement>();
+        playerMovement.health -= 1;
         checkz = GetComponent<CapsuleCollider>();
     }
 
@@ -54,7 +55,7 @@ public class Enemy : MonoBehaviour
             //print("should return...");
             if (!playerInSightRange && !playerInAttackRange) Patroling();
             if (playerInSightRange && !playerInAttackRange) ChasePlayer();
-            //if (playerInAttackRange && playerInSightRange) AttackPlayer();
+            if (playerInAttackRange && playerInSightRange) AttackPlayer();
         }
         
 
@@ -136,15 +137,30 @@ public class Enemy : MonoBehaviour
 
         if (health <= 0) Invoke(nameof(DestroyEnemy), 0.5f);
     }
-
+    /*
     public void Kback(Vector3 direction)
     {
-        rb.AddForce(direction * 600 * -1);
+        rb.AddForce(direction * 600 *-1);
         backtime = 1;
         print("knockack!");
         agent.enabled = false;
         rb.isKinematic = false;
 
+    }
+    */
+    public void Kback(Vector3 direction)
+    {
+        // Remove the negative multiplier here to push the enemy away from the player
+        rb.AddForce(direction * -4, ForceMode.Impulse);  // Apply force in the correct direction
+
+        backtime = 1;
+        print("knockback!");
+
+        // Disable the NavMeshAgent temporarily during knockback
+        agent.enabled = false;
+
+        // Ensure Rigidbody is not kinematic
+        rb.isKinematic = false;
     }
     private void DestroyEnemy()
     {
