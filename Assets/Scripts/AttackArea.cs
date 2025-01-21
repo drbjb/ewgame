@@ -31,7 +31,10 @@ public class AttackArea : MonoBehaviour
 
         if (collider.CompareTag("PowerUp"))
         {
-            
+            print("should add to health");
+
+            PlayerMovement pm = GetComponentInParent<PlayerMovement>();
+            pm.health += 5;
         }
     }
     /*
