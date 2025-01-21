@@ -35,6 +35,9 @@ public class AttackArea : MonoBehaviour
 
             PlayerMovement pm = GetComponentInParent<PlayerMovement>();
             pm.health += 5;
+
+            Koolaid k = collider.GetComponent<Koolaid>();
+            k.done();
         }
     }
     /*

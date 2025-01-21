@@ -13,4 +13,9 @@ public class Koolaid : MonoBehaviour
     {
         
     }
+
+    public void done()
+    {
+        Destroy(gameObject);
+    }
 }
