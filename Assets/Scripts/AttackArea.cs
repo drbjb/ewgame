@@ -28,6 +28,11 @@ public class AttackArea : MonoBehaviour
                 print(direction);
             }
         }
+
+        if (collider.CompareTag("PowerUp"))
+        {
+            
+        }
     }
     /*
     private void OnTriggerEnter(Collider collider){
