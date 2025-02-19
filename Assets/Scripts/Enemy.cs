@@ -120,6 +120,7 @@ public class Enemy : MonoBehaviour
             //actually just the script for the plater as a whole.. ik its stupid :/ but i dont wanna fix it
             //cuz im lazy
             playerMovement.health -= 1;
+            playerMovement.HBar();
             print(playerMovement.health);
             alreadyAttacked = true;
             Invoke(nameof(ResetAttack), timeBetweenAttacks);

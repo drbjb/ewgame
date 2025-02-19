@@ -22,6 +22,9 @@ public class PlayerMovement : MonoBehaviour
 
     public int health = 10;
 
+    public HealthBar HealthBar;
+
+
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -72,5 +75,10 @@ public class PlayerMovement : MonoBehaviour
             Vector3 limitedVel = flatVel.normalized * moveSpeed;
             rb.linearVelocity = new Vector3(limitedVel.x, rb.linearVelocity.y, limitedVel.z);
         }
+    }
+
+    public void HBar()
+    {
+        HealthBar.setHealth(health);
     }
 }
