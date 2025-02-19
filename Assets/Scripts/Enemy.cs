@@ -28,7 +28,7 @@ public class Enemy : MonoBehaviour
     public GameObject projectile;
 
     bool back = false;
-    float backtime = 0;
+    double backtime = 0;
     //States
     public float sightRange, attackRange;
     public bool playerInSightRange, playerInAttackRange;
@@ -152,9 +152,9 @@ public class Enemy : MonoBehaviour
     public void Kback(Vector3 direction)
     {
         // Remove the negative multiplier here to push the enemy away from the player
-        rb.AddForce(direction * -4, ForceMode.Impulse);  // Apply force in the correct direction
+        rb.AddForce(direction * -3, ForceMode.Impulse);  // Apply force in the correct direction
 
-        backtime = 1;
+        backtime = 0.5;
         print("knockback!");
 
         // Disable the NavMeshAgent temporarily during knockback

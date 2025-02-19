@@ -2,43 +2,72 @@ using UnityEngine;
 
 public class PlayerAttack : MonoBehaviour
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    private GameObject attackArea = default;
+    public Camera playerCamera; // Assign your first-person camera in the inspector
+    public float attackRange = 3f; // Adjust based on desired attack distance
+    public int damage = 1;
     private bool attacking = false;
     private float timeToAttack = 0.25f;
     private float timer = 0f;
-    void Start()
-    {
-        attackArea = transform.GetChild(3).gameObject;
-    }
+
     void Update()
     {
-        if (Input.GetMouseButtonDown(0)){
+        if (Input.GetMouseButtonDown(0))
+        {
             Attack();
         }
-            
 
-        if(attacking){
+        if (attacking)
+        {
             timer += Time.deltaTime;
-
-            if(timer >= timeToAttack){
-            
+            if (timer >= timeToAttack)
+            {
                 timer = 0;
                 attacking = false;
-                attackArea.SetActive(attacking);
             }
-
-            
         }
-        
-
-        
     }
-    private void Attack(){
+
+    private void Attack()
+    {
         attacking = true;
-        attackArea.SetActive(attacking);
+
+        // Cast a ray forward from the camera's position
+        Ray ray = new Ray(playerCamera.transform.position, playerCamera.transform.forward);
+        RaycastHit[] hits = Physics.RaycastAll(ray, attackRange);
+
+        foreach (RaycastHit hit in hits)
+        {
+            if (hit.collider.CompareTag("Enemy"))
+            {
+                // Apply damage
+                Health health = hit.collider.GetComponent<Health>();
+                if (health != null)
+                {
+                    health.Damage(damage);
+                }
+
+                // Apply knockback
+                Enemy enemy = hit.collider.GetComponent<Enemy>();
+                if (enemy != null)
+                {
+                    Vector3 knockbackDirection = playerCamera.transform.forward.normalized * -1;
+
+                    enemy.Kback(knockbackDirection);
+                }
+            }
+            if (hit.collider.CompareTag("PowerUp"))
+            {
+                // Apply damage
+                PlayerMovement pm = GetComponentInParent<PlayerMovement>();
+                pm.health += 5;
+
+                Koolaid k = hit.collider.GetComponent<Koolaid>();
+                k.done();
+            }
+        }
+
+        // Visualize the attack ray
+        Debug.DrawRay(playerCamera.transform.position, playerCamera.transform.forward * attackRange, Color.red, 0.1f);
     }
-
-
-
 }
+
