@@ -9,6 +9,8 @@ public class PlayerAttack : MonoBehaviour
     private float timeToAttack = 0.25f;
     private float timer = 0f;
 
+    public PlayerMovement playerMovement;
+
     void Update()
     {
         if (Input.GetMouseButtonDown(0))
@@ -63,6 +65,9 @@ public class PlayerAttack : MonoBehaviour
 
                 Koolaid k = hit.collider.GetComponent<Koolaid>();
                 k.done();
+
+                pm.HBar();
+                print(pm.health);
             }
         }
 

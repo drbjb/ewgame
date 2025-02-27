@@ -49,6 +49,10 @@ public class PlayerMovement : MonoBehaviour
         if(health <= 0){
             SceneManager.LoadScene("Death", LoadSceneMode.Single);
         }
+        if (health > 10)
+        {
+            health = 10;
+        }
 
     }
 
