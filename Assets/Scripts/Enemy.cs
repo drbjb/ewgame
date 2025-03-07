@@ -69,7 +69,7 @@ public class Enemy : MonoBehaviour
 
     private void Patroling()
     {
-        print("patrolling");
+        //print("patrolling");
         if (!walkPointSet) SearchWalkPoint();
 
         if (walkPointSet)
@@ -116,7 +116,7 @@ public class Enemy : MonoBehaviour
             rb.AddForce(transform.up * 8f, ForceMode.Impulse);
             */
             ///End of attack code
-            print("attack");
+            //print("attack");
             //actually just the script for the plater as a whole.. ik its stupid :/ but i dont wanna fix it
             //cuz im lazy
             playerMovement.health -= 1;

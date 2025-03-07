@@ -9,6 +9,9 @@ public class PlayerAttack : MonoBehaviour
     private float timeToAttack = 0.25f;
     private float timer = 0f;
 
+    private float specialTime = 0f;
+    public float specialTimeMax = 2;
+
     public PlayerMovement playerMovement;
 
     void Update()
@@ -26,6 +29,24 @@ public class PlayerAttack : MonoBehaviour
                 timer = 0;
                 attacking = false;
             }
+        }
+
+        if (Input.GetKeyDown(KeyCode.E))
+        {
+            specialTime += Time.deltaTime;
+            print(specialTime);
+            print("HAIIII");
+        }
+
+        if (Input.GetKeyUp(KeyCode.E) && specialTime < specialTimeMax)
+        {
+            specialTime = 0;
+        }
+        if (Input.GetKeyUp(KeyCode.E) && specialTime > specialTimeMax)
+        {
+            damage = 100;
+            Attack();
+            specialTime = 0;
         }
     }
 
@@ -70,6 +91,8 @@ public class PlayerAttack : MonoBehaviour
                 print(pm.health);
             }
         }
+
+
 
         // Visualize the attack ray
         Debug.DrawRay(playerCamera.transform.position, playerCamera.transform.forward * attackRange, Color.red, 0.1f);
