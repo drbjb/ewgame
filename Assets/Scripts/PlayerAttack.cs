@@ -4,13 +4,15 @@ public class PlayerAttack : MonoBehaviour
 {
     public Camera playerCamera; // Assign your first-person camera in the inspector
     public float attackRange = 3f; // Adjust based on desired attack distance
-    public int damage = 1;
+    public int damage = 2;
     private bool attacking = false;
     private float timeToAttack = 0.25f;
     private float timer = 0f;
+    private float aura; // determienes knocknback mod
+    private int ktime = 1;
 
     private float specialTime = 0f;
-    public float specialTimeMax = 2;
+    public float specialTimeMax = 3f;
 
     public PlayerMovement playerMovement;
 
@@ -18,10 +20,22 @@ public class PlayerAttack : MonoBehaviour
     {
         if (Input.GetMouseButtonDown(0))
         {
+            if (specialTime > specialTimeMax)
+            {
+                print("KILLLL");
+                damage = 3;
+                aura = 50000;
+                ktime = 3;
+
+            }
+            specialTime = 0;
             Attack();
+            damage = 1;
+            aura = 1;
+            ktime = 1;
         }
 
-        if (attacking)
+            if (attacking)
         {
             timer += Time.deltaTime;
             if (timer >= timeToAttack)
@@ -31,23 +45,28 @@ public class PlayerAttack : MonoBehaviour
             }
         }
 
-        if (Input.GetKeyDown(KeyCode.E))
+        if (Input.GetKey(KeyCode.LeftShift))
         {
             specialTime += Time.deltaTime;
             print(specialTime);
-            print("HAIIII");
         }
 
-        if (Input.GetKeyUp(KeyCode.E) && specialTime < specialTimeMax)
+        if (specialTime >= specialTimeMax)
+        {
+            print("attackTime...");
+        }
+        if (Input.GetKeyUp(KeyCode.LeftShift) && specialTime > specialTimeMax)
         {
             specialTime = 0;
+
         }
-        if (Input.GetKeyUp(KeyCode.E) && specialTime > specialTimeMax)
+        
+        if (Input.GetKeyUp(KeyCode.LeftShift) && specialTime < specialTimeMax)
         {
-            damage = 100;
-            Attack();
             specialTime = 0;
+
         }
+
     }
 
     private void Attack()
@@ -73,9 +92,9 @@ public class PlayerAttack : MonoBehaviour
                 Enemy enemy = hit.collider.GetComponent<Enemy>();
                 if (enemy != null)
                 {
-                    Vector3 knockbackDirection = playerCamera.transform.forward.normalized * -1;
+                    Vector3 knockbackDirection = playerCamera.transform.forward.normalized * -1 *aura;
 
-                    enemy.Kback(knockbackDirection);
+                    enemy.Kback(knockbackDirection, aura, ktime);
                 }
             }
             if (hit.collider.CompareTag("PowerUp"))

@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class Health : MonoBehaviour
 {
-    private int health = 5;
+    public int ehealth = 5;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -12,14 +12,14 @@ public class Health : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(health <= 0){
+        if(ehealth <= 0){
             Destroy(gameObject);
         }
         
     }
 
     public void Damage(int d){
-        health -= d;
-        print("monster: " + health);
+        ehealth -= d;
+        print("monster: " + ehealth);
     }
 }

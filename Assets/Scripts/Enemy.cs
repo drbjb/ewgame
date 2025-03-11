@@ -149,12 +149,12 @@ public class Enemy : MonoBehaviour
 
     }
     */
-    public void Kback(Vector3 direction)
+    public void Kback(Vector3 direction, float aura, int btime)
     {
         // Remove the negative multiplier here to push the enemy away from the player
-        rb.AddForce(direction * -4.5f, ForceMode.Impulse);  // Apply force in the correct direction
+        rb.AddForce(direction * -4.5f * aura, ForceMode.Impulse);  // Apply force in the correct direction
 
-        backtime = 0.3;
+        backtime = 0.3 * btime;
         print("knockback!");
 
         // Disable the NavMeshAgent temporarily during knockback
