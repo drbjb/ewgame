@@ -169,7 +169,7 @@ MonoBehaviour:
   walkPointRange: 5
   timeBetweenAttacks: 1
   projectile: {fileID: 0}
-  sightRange: 20
+  sightRange: 30
   attackRange: 4
   playerInSightRange: 0
   playerInAttackRange: 1

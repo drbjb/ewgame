@@ -8,7 +8,7 @@ public class PlayerAttack : MonoBehaviour
     private bool attacking = false;
     private float timeToAttack = 0.25f;
     private float timer = 0f;
-    private float aura; // determienes knocknback mod
+    private float aura = 1f; // determienes knocknback mod
     private int ktime = 1;
 
     private float specialTime = 0f;
@@ -31,7 +31,7 @@ public class PlayerAttack : MonoBehaviour
             specialTime = 0;
             Attack();
             damage = 1;
-            aura = 1;
+            aura = 1.5f;
             ktime = 1;
         }
 
