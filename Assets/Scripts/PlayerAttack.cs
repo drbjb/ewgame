@@ -4,7 +4,7 @@ public class PlayerAttack : MonoBehaviour
 {
     public Camera playerCamera; // Assign your first-person camera in the inspector
     public float attackRange = 3f; // Adjust based on desired attack distance
-    public int damage = 2;
+    public int damage = 3;
     private bool attacking = false;
     private float timeToAttack = 0.25f;
     private float timer = 0f;
@@ -93,6 +93,43 @@ public class PlayerAttack : MonoBehaviour
                 if (enemy != null)
                 {
                     Vector3 knockbackDirection = playerCamera.transform.forward.normalized * -1 *aura;
+
+                    enemy.Kback(knockbackDirection, aura, ktime);
+                }
+            }
+            if (hit.collider.CompareTag("EnemyHead"))
+            {
+                print("HEADSHOT!");
+                // Apply damage
+                Health health = hit.collider.GetComponentInParent<Health>();
+                if (health != null)
+                {
+                    health.Damage(damage + 100);
+                }
+
+                // Apply knockback
+                Enemy enemy = hit.collider.GetComponentInParent<Enemy>();
+                if (enemy != null)
+                {
+                    Vector3 knockbackDirection = playerCamera.transform.forward.normalized * -1 * aura;
+
+                    enemy.Kback(knockbackDirection, aura, ktime);
+                }
+            }
+            if (hit.collider.CompareTag("Kahuna"))
+            {
+                // Apply damage
+                Health health = hit.collider.GetComponent<Health>();
+                if (health != null)
+                {
+                    health.Damage(damage);
+                }
+
+                // Apply knockback
+                Enemy enemy = hit.collider.GetComponent<Enemy>();
+                if (enemy != null)
+                {
+                    Vector3 knockbackDirection = playerCamera.transform.forward.normalized * -1 * (aura/4);
 
                     enemy.Kback(knockbackDirection, aura, ktime);
                 }

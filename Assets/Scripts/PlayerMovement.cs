@@ -20,7 +20,8 @@ public class PlayerMovement : MonoBehaviour
     Vector3 moveDirection;
     Rigidbody rb;
 
-    public int health = 10;
+    public int health;
+    public int maxHealth = 15;
 
     public HealthBar HealthBar;
 
@@ -29,6 +30,7 @@ public class PlayerMovement : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
+        health = maxHealth;
         rb = GetComponent<Rigidbody>();
         rb.freezeRotation = true;
         
@@ -49,10 +51,11 @@ public class PlayerMovement : MonoBehaviour
         if(health <= 0){
             SceneManager.LoadScene("Death", LoadSceneMode.Single);
         }
-        if (health > 10)
+        if (health > maxHealth)
         {
-            health = 10;
+            health = maxHealth;
         }
+        print(health);
 
     }
 

@@ -33,6 +33,8 @@ public class Enemy : MonoBehaviour
     public float sightRange, attackRange;
     public bool playerInSightRange, playerInAttackRange;
 
+    public int damage;
+
     private void Awake()
     {
         player = GameObject.Find("PlayerObj").transform;
@@ -95,37 +97,30 @@ public class Enemy : MonoBehaviour
 
     private void ChasePlayer()
     {
-        //print("prowl");
+        // Update the agent's destination
         agent.SetDestination(player.position);
+
+        // Make sure the enemy faces the player while moving
+        FacePlayer();
     }
 
     private void AttackPlayer()
     {
-        
-        //Make sure enemy doesn't move
+        // Stop the enemy from moving
         agent.SetDestination(transform.position);
 
-        transform.LookAt(player);
+        // Face the player
+        FacePlayer();
 
+        // If the enemy is not in the middle of an attack, perform the attack
         if (!alreadyAttacked)
         {
-            ///Attack code here
-            /*
-            Rigidbody rb = Instantiate(projectile, transform.position, Quaternion.identity).GetComponent<Rigidbody>();
-            rb.AddForce(transform.forward * 32f, ForceMode.Impulse);
-            rb.AddForce(transform.up * 8f, ForceMode.Impulse);
-            */
-            ///End of attack code
-            //print("attack");
-            //actually just the script for the plater as a whole.. ik its stupid :/ but i dont wanna fix it
-            //cuz im lazy
-            playerMovement.health -= 1;
+            playerMovement.health -= damage;
             playerMovement.HBar();
             print(playerMovement.health);
             alreadyAttacked = true;
             Invoke(nameof(ResetAttack), timeBetweenAttacks);
         }
-
     }
     private void ResetAttack()
     {
@@ -162,6 +157,8 @@ public class Enemy : MonoBehaviour
 
         // Ensure Rigidbody is not kinematic
         rb.isKinematic = false;
+
+        FacePlayer();
     }
     private void DestroyEnemy()
     {
@@ -176,4 +173,20 @@ public class Enemy : MonoBehaviour
         Gizmos.color = Color.yellow;
         Gizmos.DrawWireSphere(transform.position, sightRange);
     }
+
+    private void FacePlayer()
+    {
+        // Calculate the direction to the player (ignore the Y-axis for 2D effect)
+        Vector3 direction = player.position - transform.position;
+        direction.y = 0; // Prevent vertical rotation (keep it purely 2D)
+
+        // If the direction is non-zero, rotate the plane to face the player
+        if (direction.magnitude > 0.1f)  // Add a small threshold to prevent jittering
+        {
+            // Directly set the rotation to look at the player
+            transform.rotation = Quaternion.LookRotation(direction);
+        }
+    }
 }
+
+

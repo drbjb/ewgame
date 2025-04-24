@@ -8,7 +8,7 @@ public class HealthBar : MonoBehaviour
     public Slider slider;
     public void start()
     {
-        slider.value = 20;
+        slider.value = 15;
     }
     
     
