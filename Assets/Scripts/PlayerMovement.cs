@@ -55,7 +55,7 @@ public class PlayerMovement : MonoBehaviour
         {
             health = maxHealth;
         }
-        print(health);
+  
 
     }
 

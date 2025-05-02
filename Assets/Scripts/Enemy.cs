@@ -34,6 +34,10 @@ public class Enemy : MonoBehaviour
     public bool playerInSightRange, playerInAttackRange;
 
     public int damage;
+    public Animator Animator;
+
+    public GameObject Square;
+    
 
     private void Awake()
     {
@@ -43,7 +47,8 @@ public class Enemy : MonoBehaviour
         playerMovement = playerO.GetComponent<PlayerMovement>();
         playerMovement.health -= 1;
         checkz = GetComponent<CapsuleCollider>();
-    }
+        Animator = Square.GetComponent<Animator>();
+}
 
     private void Update()
     {
@@ -71,6 +76,8 @@ public class Enemy : MonoBehaviour
 
     private void Patroling()
     {
+
+        
         //print("patrolling");
         if (!walkPointSet) SearchWalkPoint();
 
@@ -81,7 +88,15 @@ public class Enemy : MonoBehaviour
 
         //Walkpoint reached
         if (distanceToWalkPoint.magnitude < 1f)
+        {
             walkPointSet = false;
+            if (Animator != null)
+            {
+                print("hai");
+                print(Animator.GetInteger("mode"));
+                Animator.SetInteger("mode", 0);
+            }
+        }
     }
     private void SearchWalkPoint()
     {
@@ -97,6 +112,12 @@ public class Enemy : MonoBehaviour
 
     private void ChasePlayer()
     {
+        if (Animator != null)
+        {
+            print(Animator.GetInteger("mode"));
+            Animator.SetInteger("mode", 1);
+        }
+
         // Update the agent's destination
         agent.SetDestination(player.position);
 
@@ -120,6 +141,11 @@ public class Enemy : MonoBehaviour
             print(playerMovement.health);
             alreadyAttacked = true;
             Invoke(nameof(ResetAttack), timeBetweenAttacks);
+        }
+                if (Animator != null)
+        {
+            print(Animator.GetInteger("mode"));
+            Animator.SetInteger("mode", 1);
         }
     }
     private void ResetAttack()
@@ -150,6 +176,12 @@ public class Enemy : MonoBehaviour
         rb.AddForce(direction * -4.5f * aura, ForceMode.Impulse);  // Apply force in the correct direction
 
         backtime = 0.3 * btime;
+        if (Animator != null)
+        {
+            print("hai");
+            print(Animator.GetInteger("mode"));
+            Animator.SetInteger("mode", 0);
+        }
         print("knockback!");
 
         // Disable the NavMeshAgent temporarily during knockback
